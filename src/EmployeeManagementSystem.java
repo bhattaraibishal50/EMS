@@ -20,9 +20,9 @@ public class EmployeeManagementSystem {
                     System.out.println("Employe Salary :: " + emp.getSalary());
                     System.out.println("Employe Position :: " + emp.getPosition());
                     System.out.println("--------------------------------------\n");
-                    int option1 = EmployeeManagementSystem.handleApplicationOptions(sc);
-                    EmployeeManagementSystem.dispatchActions(sc, option1);
                 }
+                int option1 = EmployeeManagementSystem.handleApplicationOptions(sc);
+                EmployeeManagementSystem.dispatchActions(sc, option1);
                 break;
             case 2:
                 System.out.print("Please Enter Employee ID :: \n");
@@ -47,15 +47,63 @@ public class EmployeeManagementSystem {
                         System.out.println("Employe Salary : " + employee.getSalary());
                         System.out.println("Employe Position : " + employee.getPosition());
                         System.out.println("--------------------------------------\n");
-                        int option2 = EmployeeManagementSystem.handleApplicationOptions(sc);
-                        EmployeeManagementSystem.dispatchActions(sc, option2);
                     } else {
-                        System.out.println("No records has been found");
+                        System.out.println("No records has been found \n");
                     }
+                    int option2 = EmployeeManagementSystem.handleApplicationOptions(sc);
+                    EmployeeManagementSystem.dispatchActions(sc, option2);
                 }
                 break;
             case 3:
                 System.out.println("Create Employee Record");
+                Employee employee1 = new Employee();
+                if (sc.hasNextLine()) {
+                    System.out.print("Please enter Employee Id :: ");
+                    employee1.setId(sc.next());
+                }
+                if (sc.hasNextLine()) {
+                    System.out.print("Please enter Employee Name :: ");
+                    employee1.setName(sc.next());
+                }
+
+                if (sc.hasNextLine()) {
+                    System.out.print("Please enter Employee age :: ");
+                    int age;
+                    do {
+                        while (!sc.hasNextInt()) {
+                            System.out.print("Invalid number, Please enter valid age ::");
+                            sc.next();
+                        }
+                        age = sc.nextInt();
+                        if (age <= 0) {
+                            System.out.println("negative number, Please emter positive age :: ");
+                        }
+                    } while (age <= 0);
+                    employee1.setAge(age);
+                }
+                if (sc.hasNextLine()) {
+                    System.out.print("Enter Employee poistion :: ");
+                    employee1.setPosition(sc.next());
+                }
+                if (sc.hasNextLine()) {
+                    System.out.print("Enter Employee salary :: ");
+                    double salary;
+                    do {
+                        while (!sc.hasNextInt()) {
+                            System.out.print("Invalid number, Please enter valid Salary :: ");
+                            sc.next();
+                        }
+                        salary = sc.nextInt();
+                    } while (salary < 0);
+                    employee1.setSalary(salary);
+                }
+
+                // append the employee record
+                if (efs.Create(employee1)) {
+                    System.out.println("Employee has been saved. \n");
+                }
+                int option3 = EmployeeManagementSystem.handleApplicationOptions(sc);
+                EmployeeManagementSystem.dispatchActions(sc, option3);
                 break;
 
             case 4:

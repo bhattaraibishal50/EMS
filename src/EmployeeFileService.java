@@ -1,12 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class EmployeeFileService {
 
     private static String FILE_PATH = "./employee_management_system.csv";
-    private Employee employee;
     private File file;
 
     public static int GetRows() {
@@ -26,7 +27,6 @@ public class EmployeeFileService {
     }
 
     public EmployeeFileService() {
-        employee = new Employee();
         file = new File(FILE_PATH);
     }
 
@@ -65,6 +65,26 @@ public class EmployeeFileService {
         } catch (Exception e) {
             System.out.println("error ::" + e.getMessage());
             return null;
+        }
+    }
+
+    public boolean Create(Employee employee) {
+        try {
+            File file = new File(EmployeeFileService.FILE_PATH);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            String splitBy = ",";
+            bw.append(employee.getId() + splitBy
+                    + employee.getName() + splitBy
+                    + employee.getAge() + splitBy
+                    + employee.getSalary() + splitBy
+                    + employee.getPosition());
+            bw.newLine();
+            bw.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("error ::" + e.getMessage());
+            return false;
         }
     }
 
