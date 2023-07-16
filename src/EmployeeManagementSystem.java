@@ -58,50 +58,14 @@ public class EmployeeManagementSystem {
                 break;
             case 3:
                 System.out.println("Create Employee Record");
-                Employee employee1 = new Employee();
-                if (sc.hasNextLine()) {
-                    System.out.print("Please enter Employee Id :: ");
-                    employee1.setId(sc.next());
+                Employee employee1 = Employee.getInputEmployee(sc);
+                Employee[] results3 = efs.FindAll();
+                List<Employee> employeLists1 = new ArrayList<>();
+                for (Employee employee : results3) {
+                    employeLists1.add(employee);
                 }
-                if (sc.hasNextLine()) {
-                    System.out.print("Please enter Employee Name :: ");
-                    employee1.setName(sc.next());
-                }
-
-                if (sc.hasNextLine()) {
-                    System.out.print("Please enter Employee age :: ");
-                    int age;
-                    do {
-                        while (!sc.hasNextInt()) {
-                            System.out.print("Invalid number, Please enter valid age ::");
-                            sc.next();
-                        }
-                        age = sc.nextInt();
-                        if (age <= 0) {
-                            System.out.println("negative number, Please emter positive age :: ");
-                        }
-                    } while (age <= 0);
-                    employee1.setAge(age);
-                }
-                if (sc.hasNextLine()) {
-                    System.out.print("Enter Employee poistion :: ");
-                    employee1.setPosition(sc.next());
-                }
-                if (sc.hasNextLine()) {
-                    System.out.print("Enter Employee salary :: ");
-                    double salary;
-                    do {
-                        while (!sc.hasNextInt()) {
-                            System.out.print("Invalid number, Please enter valid Salary :: ");
-                            sc.next();
-                        }
-                        salary = sc.nextInt();
-                    } while (salary < 0);
-                    employee1.setSalary(salary);
-                }
-
-                // append the employee record
-                if (efs.Create(employee1)) {
+                employeLists1.add(employee1);
+                if (efs.BulkCreate(employeLists1)) {
                     System.out.println("Employee has been saved. \n");
                 }
                 int option3 = EmployeeManagementSystem.handleApplicationOptions(sc);
@@ -109,6 +73,24 @@ public class EmployeeManagementSystem {
                 break;
             case 4:
                 System.out.println("update Employee Record by Employee ID");
+                if (sc.hasNextLine()) {
+                    System.out.print("Please enter Employee Id :: ");
+                    String employeeID = sc.next();
+                    Employee[] results1 = efs.FindAll();
+                    List<Employee> employeLists = new ArrayList<>();
+                    for (Employee employee : results1) {
+                        if (!employee.getId().equals(employeeID)) {
+                            employeLists.add(employee);
+                        }
+                    }
+                    Employee employee2 = Employee.getInputEmployee(sc);
+                    employeLists.add(employee2);
+                    if (efs.BulkCreate(employeLists)) {
+                        System.out.println("Employee record has been updated");
+                    }
+                    int option4 = EmployeeManagementSystem.handleApplicationOptions(sc);
+                    EmployeeManagementSystem.dispatchActions(sc, option4);
+                }
                 break;
 
             case 5:
