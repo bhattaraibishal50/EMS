@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeManagementSystem {
@@ -105,16 +107,37 @@ public class EmployeeManagementSystem {
                 int option3 = EmployeeManagementSystem.handleApplicationOptions(sc);
                 EmployeeManagementSystem.dispatchActions(sc, option3);
                 break;
-
             case 4:
                 System.out.println("update Employee Record by Employee ID");
                 break;
 
             case 5:
                 System.out.println("Delete Record  By Employee ID");
+                if (sc.hasNextLine()) {
+                    System.out.print("Please enter Employee Id :: ");
+                    String employeeID = sc.next();
+                    Employee[] results1 = efs.FindAll();
+                    List<Employee> employeLists = new ArrayList<>();
+                    for (Employee employee : results1) {
+                        if (!employee.getId().equals(employeeID)) {
+                            employeLists.add(employee);
+                        }
+                    }
+                    System.out.println(employeLists);
+                    if (employeLists.size() != results1.length) {
+                        if (efs.BulkCreate(employeLists)) {
+                            System.out.println("Employee record has been deleted");
+                        }
+                    } else {
+                        System.out.println("No Matching records Found ");
+                    }
+                    int option4 = EmployeeManagementSystem.handleApplicationOptions(sc);
+                    EmployeeManagementSystem.dispatchActions(sc, option4);
+                }
             default:
                 break;
         }
+
     }
 
     private static int handleApplicationOptions(Scanner sc) {

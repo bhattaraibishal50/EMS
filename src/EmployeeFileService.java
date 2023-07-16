@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class EmployeeFileService {
 
@@ -86,6 +87,29 @@ public class EmployeeFileService {
             System.out.println("error ::" + e.getMessage());
             return false;
         }
+    }
+
+    public boolean BulkCreate(List<Employee> employee) {
+        try {
+            File file = new File(EmployeeFileService.FILE_PATH);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            String splitBy = ",";
+            for (Employee employee2 : employee) {
+                bw.write(employee2.getId() + splitBy
+                        + employee2.getName() + splitBy
+                        + employee2.getAge() + splitBy
+                        + employee2.getSalary() + splitBy
+                        + employee2.getPosition());
+                bw.newLine();
+            }
+            bw.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("error ::" + e.getMessage());
+            return false;
+        }
+
     }
 
 }
